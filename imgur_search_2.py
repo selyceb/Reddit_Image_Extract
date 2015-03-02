@@ -8,7 +8,8 @@ def get_html(f):
 	html = response.read()
 	return html
 
-#from: http://blog.zeevgilovitz.com/detecting-dominant-colours-in-python/	
+#from: http://blog.zeevgilovitz.com/detecting-dominant-colours-in-python/
+#Returns most frequent color value in an image as (R,G,B)	
 def most_frequent_color(image):
 	w, h = image.size
 	pixels = image.getcolors(w * h)
@@ -19,7 +20,8 @@ def most_frequent_color(image):
 			most_frequent_pixel = (count, color)
 	
 	return most_frequent_pixel[1]
-	
+
+#Returns the count of the most frequent color value and the value as (R,G,B)	
 def most_frequent_color_count(image):
 		w, h = image.size
 		pixels = image.getcolors(w * h)
@@ -30,7 +32,8 @@ def most_frequent_color_count(image):
 				most_frequent_pixel = (count, color)
 		
 		return most_frequent_pixel
-	
+
+#Returns html file from url	
 def url_to_file(url):
 	file = cStringIO.StringIO(urllib2.urlopen(url).read())
 	return file
@@ -53,9 +56,16 @@ def write_to_csv(out_file, rgb, count):
 		#Excel formula: =INDEX(B2:B22,MODE(MATCH(B2:B22, B2:B22, 0)))	
 		csv_out.close()
 
-output = open('view_images.html', 'w')	
-html = get_html('http://www.reddit.com/r/all')	
+#HTML file to display images and color values
+output = open('view_images.html', 'w')
+
+#Address of page to extract images	
+html = get_html('http://www.reddit.com/r/all')
+
+#Essentially streams html page so it can be searched for images	
 soup = BeautifulSoup(html)
+
+#Initialize string that will be written to output
 outstring = ''
 
 #Write html file ( to be cleaned up)
@@ -72,7 +82,8 @@ for link in soup.findAll('img'):
 	image_string += links
 	im = Image.open(url_to_file(image_string))
 	hex = rgb_to_hex(most_frequent_color(im))
-
+	
+	#add color value and count to csv file
 	write_to_csv("output.csv", most_frequent_color_count(im)[1], most_frequent_color_count(im)[0])
 	
 #display color and hex value of each color in html

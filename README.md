@@ -12,7 +12,7 @@ You will need Beautiful Soup 4 and PIL to run this script.
 This is an early version and very messy, so I apologize.
 
 You can easily modify this code to be used with other pages
-by changing the string value in line 57.
+by changing the string value in the initialization of "html".
 
 This code is not intended for commercial use and I used advice
 or pieces of code from each of these sites:
